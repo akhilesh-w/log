@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { stringify } from 'querystring';
 
 const Log: React.FC = () => {
   const [text, setText] = useState('');
@@ -10,7 +11,7 @@ const Log: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const savedText = localStorage.getItem('log') || '';
+    const savedText = localStorage.getItem('log') || 'Hello';
     setText(savedText);
     setEntries(savedText.split('\n').length);
   }, []);
@@ -23,6 +24,7 @@ const Log: React.FC = () => {
   const exportData = () => {
     const element = document.createElement('a');
     const file = new Blob([text], { type: 'text/plain' });
+
     element.href = URL.createObjectURL(file);
     element.download = 'log.txt';
     document.body.appendChild(element);
